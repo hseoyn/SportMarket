@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace：命名空间，设置为数据层接口的全类名-->
+<mapper namespace="com.oaec.sportmarket.mapper.BrandMapper">
+
+    <select id="queryByTypeId" parameterType="int" resultType="map">
+        SELECT * FROM brand WHERE brand_id IN (SELECT brand_id FROM commodity WHERE type_id =#{typeId} AND states = 1 GROUP BY brand_id)
+    </select>
+
+    <select id="queryAll" resultType="map">
+        SELECT * FROM BRAND WHERE BRAND_ID IN (SELECT BRAND_ID FROM COMMODITY WHERE STATES = 1 GROUP BY BRAND_ID)
+    </select>
+
+    <select id="queryByBid" parameterType="int" resultType="map">
+        SELECT * FROM BRAND WHERE BRAND_ID = #{brandId}
+    </select>
+
+</mapper>

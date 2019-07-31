@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace：命名空间，设置为数据层接口的全类名-->
+<mapper namespace="com.oaec.sportmarket.mapper.CartMapper">
+    <select id="queryByUserId" parameterType="int" resultType="map">
+        SELECT commodity.commodity_id,commodity.image_url,commodity.commodity_name,commodity.price,cart.num FROM cart ,commodity WHERE CART.COMMODITY_ID = COMMODITY.COMMODITY_ID AND USERS_ID = #{userId}
+    </select>
+    <insert id="doInsert" parameterType="map">
+        INSERT INTO cart (users_id, commodity_id, num) VALUES (#{userId},#{commodityId},#{num})
+    </insert>
+    <select id="queryByUserIdAndCommodityId" resultType="map">
+        SELECT * FROM cart,COMMODITY WHERE CART.COMMODITY_ID = COMMODITY.COMMODITY_ID AND USERS_ID = #{userId} AND CART.COMMODITY_ID = #{commodityId}
+    </select>
+    <update id="updateNum">
+        UPDATE CART SET NUM = NUM + #{num} WHERE USERS_ID = #{userId} AND COMMODITY_ID = #{commodityId}
+    </update>
+    <delete id="doDelete">
+        DELETE FROM cart WHERE users_id=#{userId} And commodity_id=#{commodityId}
+    </delete>
+    <update id="addNum" parameterType="int">
+        UPDATE cart SET NUM = NUM +1 WHERE USERS_ID = #{userId} AND COMMODITY_ID = #{commodityId}
+    </update>
+    <update id="subNum" parameterType="int">
+        UPDATE cart SET NUM = NUM -1 WHERE USERS_ID = #{userId} AND COMMODITY_ID = #{commodityId}
+    </update>
+    <select id="queryTotal" resultType="map">
+        SELECT sum(num) total_num,sum(num*price) total_price FROM commodity,cart where commodity.commodity_id = cart.commodity_id AND cart.users_id = #{userId} AND commodity.commodity_id IN
+        <foreach collection="commodityIds" item="commodityId" open="(" separator="," close=")">
+            #{commodityId}
+        </foreach>
+    </select>
+    <select id="queryCommodity4Checkout" resultType="map">
+        SELECT commodity.commodity_id,commodity.commodity_name,cart.num,commodity.price from CART,COMMODITY WHERE cart.commodity_id=commodity.commodity_id  AND users_id = #{userId} AND cart.commodity_id IN
+        <foreach collection="commodityIds" item="commodityId" open="(" separator="," close=")">
+            #{commodityId}
+        </foreach>
+    </select>
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace：命名空间，设置为数据层接口的全类名-->
+<mapper namespace="com.oaec.sportmarket.mapper.UserMapper">
+
+    <select id="query" resultType="map">
+        SELECT * FROM users WHERE states = 1
+        <if test="username != null">
+            AND users_name = #{username}
+        </if>
+        <if test="password != null">
+            AND password = #{password}
+        </if>
+        <if test="tel != null">
+            AND tel = #{tel}
+        </if>
+    </select>
+    <insert id="doInsert">
+        INSERT INTO users(users_name, password,states,tel) VALUES(#{username},#{password},1,#{tel})
+    </insert>
+</mapper>

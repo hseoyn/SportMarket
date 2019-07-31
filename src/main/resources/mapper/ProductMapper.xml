@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oaec.sportmarket.mapper.ProductMapper">
+    <select id="queryAll" resultType="map">
+        SELECT * FROM commodity WHERE states = 1
+    </select>
+    <select id="query" parameterType="map" resultType="map">
+        SELECT * FROM commodity WHERE states = 1
+        <if test="typeId != null">
+            AND type_id = #{typeId}
+        </if>
+        <if test="brandId != null">
+            AND brand_id = #{brandId}
+        </if>
+        <if test="name != null">
+            AND commodity_name LIKE CONCAT('%',#{name},'%')
+        </if>
+        <if test="commodityId != null">
+            AND commodity_id = #{commodityId}
+        </if>
+    </select>
+    <select id="queryById" parameterType="int" resultType="map">
+        SELECT * FROM commodity WHERE commodity_id = #{commodityId}
+    </select>
+    <update id="UpdateStockAndSale">
+        UPDATE COMMODITY SET STOCK = STOCK-#{num},SALE = SALE+#{num} WHERE COMMODITY_ID = #{commodityId}
+    </update>
+</mapper>

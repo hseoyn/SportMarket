@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace：命名空间，设置为数据层接口的全类名-->
+<mapper namespace="com.oaec.sportmarket.mapper.AddressMapper">
+
+    <select id="queryById" resultType="map">
+       SELECT * FROM address WHERE address_id = #{addressId}
+    </select>
+    <select id="queryByUserId" resultType="map">
+       SELECT * FROM address WHERE users_id = #{userId} AND STATES =1
+    </select>
+    <delete id="doDelete">
+        DELETE FROM address WHERE address_id=#{addressId}
+    </delete>
+    <insert id="doInsert">
+        INSERT INTO address (addressee, tel, address, users_id, defaults, states) VALUES (#{name},#{tel},#{address},#{userId},0,1);
+    </insert>
+    <update id="doUpdate">
+        UPDATE ADDRESS SET addressee = #{name},tel = #{tel},address = #{address} WHERE address_id = #{addressId}
+    </update>
+</mapper>

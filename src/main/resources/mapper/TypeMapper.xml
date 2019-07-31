@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace：命名空间，设置为数据层接口的全类名-->
+<mapper namespace="com.oaec.sportmarket.mapper.TypeMapper">
+
+    <select id="queryNav" resultType="map">
+        SELECT * FROM type WHERE type_id IN (SELECT type_id FROM COMMODITY GROUP BY type_id)
+    </select>
+
+    <select id="queryByTid" parameterType="int" resultType="map">
+        SELECT * FROM type WHERE type_id = #{typeId}
+    </select>
+</mapper>

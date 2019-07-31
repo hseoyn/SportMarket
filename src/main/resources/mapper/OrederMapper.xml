@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace：命名空间，设置为数据层接口的全类名-->
+<mapper namespace="com.oaec.sportmarket.mapper.OderMapper">
+
+    <select id="queryByUserId" resultType="map">
+       SELECT * FROM orders WHERE USERS_ID = #{userId}
+    </select>
+    <select id="queryCommodityByOrdersId" resultType="map">
+       SELECT orderinfo.commodity_id,orderinfo.image_url,orderinfo.commodity_name,orderinfo.num,orderinfo.price FROM orders,orderinfo WHERE orders.orders_id = orderinfo.orders_id and orders.orders_id = #{orederId}
+    </select>
+    <select id="getTotalPrice" resultType="double">
+       SELECT SUM(orderinfo.num*orderinfo.price) total_price FROM orders,orderinfo WHERE orders.orders_id = orderinfo.orders_id and orders.orders_id = #{orderId}
+    </select>
+    <insert id="doInsert" keyProperty="orderId" useGeneratedKeys="true" >
+        INSERT INTO orders (users_id, address_id,states) VALUES (#{userId},#{addressId},1)
+    </insert>
+    <insert id="doInsertInfo" parameterType="map">
+        INSERT INTO orderinfo(orders_id, commodity_id, commodity_name, image_url, price, num) VALUES (#{orders_id},#{commodity_id},#{commodity_name},#{image_url},#{price},#{num})
+    </insert>
+</mapper>
